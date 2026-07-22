@@ -7,5 +7,8 @@ import notas from '../modules/notas/index.js';
 import agenda from '../modules/agenda/index.js';
 import habitos from '../modules/habitos/index.js';
 import enfoque from '../modules/enfoque/index.js';
+import finanzas from '../modules/finanzas/index.js';
+import proyectos from '../modules/proyectos/index.js';
+import biblioteca from '../modules/biblioteca/index.js';
 
-export const activeModules = [dashboard, tareas, notas, agenda, habitos, enfoque];
+export const activeModules = [dashboard, tareas, notas, agenda, habitos, enfoque, finanzas, proyectos, biblioteca];
