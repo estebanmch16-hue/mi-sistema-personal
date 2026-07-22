@@ -10,5 +10,6 @@ import enfoque from '../modules/enfoque/index.js';
 import finanzas from '../modules/finanzas/index.js';
 import proyectos from '../modules/proyectos/index.js';
 import biblioteca from '../modules/biblioteca/index.js';
+import clientes from '../modules/clientes/index.js';
 
-export const activeModules = [dashboard, tareas, notas, agenda, habitos, enfoque, finanzas, proyectos, biblioteca];
+export const activeModules = [dashboard, tareas, notas, agenda, habitos, enfoque, finanzas, proyectos, biblioteca, clientes];

@@ -4,6 +4,9 @@ import { escapeHtml } from '../../shared/utils/dom.js';
 import { loadModuleStyles } from '../../shared/load-css.js';
 
 const NAMESPACE = 'proyectos';
+// Lectura directa del namespace de Clientes: integración entre 2 módulos
+// específicos, ver nota equivalente en modules/clientes/index.js.
+const CLIENTS_NAMESPACE = 'clientes';
 const STATUS_LABELS = {
   pendiente: 'Pendiente',
   en_progreso: 'En progreso',
@@ -18,11 +21,22 @@ function saveProjects(projects) {
   storage.set(NAMESPACE, projects);
 }
 
-function createProject(name, description) {
+function loadClients() {
+  return storage.get(CLIENTS_NAMESPACE, []);
+}
+
+function findClientName(clientId) {
+  if (!clientId) return null;
+  const client = loadClients().find((c) => c.id === clientId);
+  return client ? client.name : null;
+}
+
+function createProject(name, description, clientId) {
   return {
     id: crypto.randomUUID(),
     name,
     description,
+    clientId: clientId || null,
     status: 'pendiente',
     tasks: [],
     createdAt: new Date().toISOString(),
@@ -66,6 +80,7 @@ function render() {
 
   for (const project of state.projects) {
     const progress = computeProgress(project);
+    const clientName = findClientName(project.clientId);
 
     const card = document.createElement('div');
     card.className = 'card project-card';
@@ -76,6 +91,7 @@ function render() {
           <h3 class="project-name">${escapeHtml(project.name)}</h3>
           ${project.description ? `<p class="project-description">${escapeHtml(project.description)}</p>` : ''}
         </div>
+        ${clientName ? `<span class="project-client-badge">${escapeHtml(clientName)}</span>` : ''}
         <span class="project-status status-${project.status}">${STATUS_LABELS[project.status]}</span>
         <button type="button" class="project-delete icon-button" aria-label="Eliminar proyecto">${iconSvg('trash')}</button>
       </div>
@@ -119,7 +135,8 @@ function handleCreateSubmit(e) {
   const name = String(data.get('name') || '').trim();
   if (!name) return;
   const description = String(data.get('description') || '').trim();
-  state.projects.push(createProject(name, description));
+  const clientId = String(data.get('clientId') || '') || null;
+  state.projects.push(createProject(name, description, clientId));
   els.form.reset();
   persist();
 }
@@ -189,6 +206,12 @@ export default {
       <form class="card project-form">
         <input type="text" name="name" placeholder="Nombre del proyecto…" autocomplete="off" required />
         <input type="text" name="description" placeholder="Descripción (opcional)" autocomplete="off" />
+        <select name="clientId">
+          <option value="">Sin cliente</option>
+          ${loadClients()
+            .map((c) => `<option value="${c.id}">${escapeHtml(c.name)}</option>`)
+            .join('')}
+        </select>
         <button type="submit" class="btn-primary">Crear proyecto</button>
       </form>
 

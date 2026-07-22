@@ -3,6 +3,5 @@
 // crecimiento del sistema. Cuando un módulo se implementa de verdad, se
 // elimina de aquí y se agrega a core/modules.config.js.
 export const roadmap = [
-  { label: 'Clientes', version: 'V7', icon: 'users' },
   { label: 'Configuración', version: null, icon: 'settings' },
 ];
