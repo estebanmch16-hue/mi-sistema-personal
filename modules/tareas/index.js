@@ -2,6 +2,8 @@ import * as storage from '../../core/storage.js';
 import { iconSvg } from '../../shared/icons.js';
 import { escapeHtml } from '../../shared/utils/dom.js';
 import { loadModuleStyles } from '../../shared/load-css.js';
+import { createTagPicker } from '../../shared/components/tag-picker.js';
+import { tagBadgesHtml } from '../../shared/components/tag-badges.js';
 
 const NAMESPACE = 'tareas';
 const PRIORITY_ORDER = { alta: 0, media: 1, baja: 2 };
@@ -14,9 +16,9 @@ function saveTasks(tasks) {
   storage.set(NAMESPACE, tasks);
 }
 
-function createTask(title, priority) {
+function createTask(title, priority, tagIds) {
   const now = new Date().toISOString();
-  return { id: crypto.randomUUID(), title, priority, done: false, createdAt: now, completedAt: null };
+  return { id: crypto.randomUUID(), title, priority, tagIds, done: false, createdAt: now, completedAt: null };
 }
 
 function sortTasks(tasks) {
@@ -29,6 +31,7 @@ function sortTasks(tasks) {
 // --- Estado y render de la vista completa (mount) ---
 let state = { tasks: [], filter: 'pendientes' };
 let els = {};
+let tagPicker = null;
 
 function filteredTasks() {
   if (state.filter === 'pendientes') return state.tasks.filter((t) => !t.done);
@@ -58,6 +61,7 @@ function render() {
           <input type="checkbox" ${task.done ? 'checked' : ''} aria-label="Completar tarea" />
         </label>
         <span class="task-title ${task.done ? 'is-done' : ''}">${escapeHtml(task.title)}</span>
+        ${tagBadgesHtml(task.tagIds)}
         <span class="task-priority priority-${task.priority}">${task.priority}</span>
         <button class="task-delete icon-button" type="button" aria-label="Eliminar tarea">${iconSvg('trash')}</button>
       `;
@@ -80,8 +84,10 @@ function handleSubmit(e) {
   const title = String(data.get('title') || '').trim();
   if (!title) return;
   const priority = String(data.get('priority') || 'media');
-  state.tasks.push(createTask(title, priority));
+  const tagIds = tagPicker.getSelectedIds();
+  state.tasks.push(createTask(title, priority, tagIds));
   els.form.reset();
+  tagPicker.reset();
   persist();
 }
 
@@ -140,6 +146,7 @@ export default {
           <option value="baja">Baja</option>
         </select>
         <button type="submit" class="btn-primary">Agregar</button>
+        <div class="tag-picker"></div>
       </form>
 
       <div class="task-filters">
@@ -158,6 +165,8 @@ export default {
       counter: container.querySelector('#tareas-counter'),
     };
 
+    tagPicker = createTagPicker(els.form.querySelector('.tag-picker'));
+
     els.form.addEventListener('submit', handleSubmit);
     els.list.addEventListener('click', handleListClick);
     els.filters.addEventListener('click', handleFilterClick);
@@ -167,6 +176,7 @@ export default {
 
   unmount() {
     els = {};
+    tagPicker = null;
   },
 
   widget: {

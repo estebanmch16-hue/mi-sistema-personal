@@ -3,6 +3,8 @@ import { iconSvg } from '../../shared/icons.js';
 import { escapeHtml } from '../../shared/utils/dom.js';
 import { debounce } from '../../shared/utils/debounce.js';
 import { loadModuleStyles } from '../../shared/load-css.js';
+import { createTagPicker } from '../../shared/components/tag-picker.js';
+import { tagBadgesHtml } from '../../shared/components/tag-badges.js';
 
 const NAMESPACE = 'notas';
 
@@ -14,9 +16,9 @@ function saveNotes(notes) {
   storage.set(NAMESPACE, notes);
 }
 
-function createNote(text) {
+function createNote(text, tagIds) {
   const now = new Date().toISOString();
-  return { id: crypto.randomUUID(), text, createdAt: now, updatedAt: now };
+  return { id: crypto.randomUUID(), text, tagIds, createdAt: now, updatedAt: now };
 }
 
 function sortNotes(notes) {
@@ -38,6 +40,7 @@ function formatDate(iso) {
 
 let state = { notes: [] };
 let els = {};
+let tagPicker = null;
 const persistDebounced = debounce(() => saveNotes(state.notes), 400);
 
 function render() {
@@ -55,6 +58,7 @@ function render() {
     card.dataset.id = note.id;
     card.innerHTML = `
       <textarea class="note-textarea">${escapeHtml(note.text)}</textarea>
+      ${tagBadgesHtml(note.tagIds)}
       <div class="note-footer">
         <span class="note-date">${formatDate(note.updatedAt)}</span>
         <button type="button" class="note-delete icon-button" aria-label="Eliminar nota">${iconSvg('trash')}</button>
@@ -68,8 +72,10 @@ function handleComposerSubmit(e) {
   e.preventDefault();
   const text = els.composerInput.value.trim();
   if (!text) return;
-  state.notes.push(createNote(text));
+  const tagIds = tagPicker.getSelectedIds();
+  state.notes.push(createNote(text, tagIds));
   els.composerInput.value = '';
+  tagPicker.reset();
   saveNotes(state.notes);
   render();
 }
@@ -113,6 +119,7 @@ export default {
 
       <form class="note-composer">
         <textarea placeholder="Escribe una nota…" autocomplete="off"></textarea>
+        <div class="tag-picker"></div>
         <div class="note-composer-actions">
           <button type="submit" class="btn-primary">Guardar nota</button>
         </div>
@@ -127,6 +134,8 @@ export default {
       grid: container.querySelector('.notes-grid'),
     };
 
+    tagPicker = createTagPicker(els.composer.querySelector('.tag-picker'));
+
     els.composer.addEventListener('submit', handleComposerSubmit);
     els.grid.addEventListener('input', handleGridInput);
     els.grid.addEventListener('click', handleGridClick);
@@ -136,6 +145,7 @@ export default {
 
   unmount() {
     els = {};
+    tagPicker = null;
   },
 
   widget: {

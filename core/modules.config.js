@@ -14,6 +14,7 @@ import clientes from '../modules/clientes/index.js';
 import configuracion from '../modules/configuracion/index.js';
 import objetivos from '../modules/objetivos/index.js';
 import progreso from '../modules/progreso/index.js';
+import etiquetas from '../modules/etiquetas/index.js';
 
 export const activeModules = [
   dashboard,
@@ -29,4 +30,5 @@ export const activeModules = [
   clientes,
   configuracion,
   objetivos,
+  etiquetas,
 ];
