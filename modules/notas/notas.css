@@ -1,0 +1,64 @@
+.note-composer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+}
+
+.note-composer textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.note-composer-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--space-4);
+}
+
+.note-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.note-textarea {
+  flex: 1;
+  min-height: 100px;
+  border: none;
+  background: transparent;
+  padding: 0;
+  resize: vertical;
+}
+
+.note-textarea:focus {
+  outline: none;
+}
+
+.note-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--border-color);
+}
+
+.note-date {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.note-delete svg {
+  width: 14px;
+  height: 14px;
+}
+
+.notes-empty {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}

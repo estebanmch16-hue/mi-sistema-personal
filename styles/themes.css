@@ -1,0 +1,47 @@
+/* Tema claro (por defecto) y tema oscuro.
+   El atributo [data-theme] en <html> lo controla core/theme.js (paso 2). */
+:root,
+:root[data-theme="light"] {
+  --bg-app: #f5f6fa;
+  --bg-surface: #ffffff;
+  --bg-surface-hover: #f0f1f6;
+  --bg-sidebar: #ffffff;
+  --border-color: #e4e6ef;
+
+  --text-primary: #1a1c23;
+  --text-secondary: #6b7080;
+  --text-muted: #9a9fb0;
+
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --bg-app: #14151a;
+  --bg-surface: #1b1d24;
+  --bg-surface-hover: #23252e;
+  --bg-sidebar: #1b1d24;
+  --border-color: #2a2c36;
+
+  --text-primary: #f0f1f6;
+  --text-secondary: #a3a8ba;
+  --text-muted: #6b7080;
+
+  color-scheme: dark;
+}
+
+/* Fallback: si aún no corrió theme.js, respeta la preferencia del sistema. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --bg-app: #14151a;
+    --bg-surface: #1b1d24;
+    --bg-surface-hover: #23252e;
+    --bg-sidebar: #1b1d24;
+    --border-color: #2a2c36;
+
+    --text-primary: #f0f1f6;
+    --text-secondary: #a3a8ba;
+    --text-muted: #6b7080;
+
+    color-scheme: dark;
+  }
+}

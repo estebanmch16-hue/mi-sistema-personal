@@ -1,0 +1,66 @@
+/* Vocabulario visual compartido para las mini-vistas que cada módulo expone
+   al Dashboard vía module.widget.mount(). El Dashboard solo pone el
+   contenedor ".widget-card"; el contenido interior lo llena cada módulo
+   usando estas clases para verse consistente con el resto del sistema. */
+.widget-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-4);
+}
+
+.widget-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.widget-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.widget-header svg {
+  width: 18px;
+  height: 18px;
+  color: var(--accent);
+}
+
+.widget-header h3 {
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+}
+
+.widget-link {
+  margin-left: auto;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.widget-link:hover {
+  color: var(--accent-strong);
+}
+
+.widget-stat {
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-semibold);
+}
+
+.widget-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.widget-list li {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.widget-empty {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}

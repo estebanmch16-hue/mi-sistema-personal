@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi Sistema Personal</title>
+
+  <link rel="stylesheet" href="styles/tokens.css" />
+  <link rel="stylesheet" href="styles/themes.css" />
+  <link rel="stylesheet" href="styles/base.css" />
+  <link rel="stylesheet" href="styles/layout.css" />
+  <link rel="stylesheet" href="styles/forms.css" />
+  <link rel="stylesheet" href="styles/widgets.css" />
+</head>
+<body>
+
+  <div class="app-shell">
+
+    <!-- ============ SIDEBAR ============ -->
+    <!-- El contenido de #nav-groups lo genera core/shell.js a partir de
+         core/module-registry.js + core/roadmap.js. No se edita a mano. -->
+    <nav class="sidebar" aria-label="Navegación principal">
+      <div class="sidebar-brand">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>Mi Sistema</span>
+      </div>
+
+      <div id="nav-groups"></div>
+    </nav>
+
+    <!-- ============ TOPBAR ============ -->
+    <header class="topbar">
+      <span class="topbar-title" id="topbar-title">Dashboard</span>
+
+      <div class="topbar-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <span>Buscar en todo el sistema… (V6)</span>
+      </div>
+
+      <div class="topbar-actions">
+        <input type="file" id="backup-import-input" accept="application/json" hidden />
+        <button class="icon-button" id="backup-import" type="button" aria-label="Importar respaldo" title="Importar respaldo (JSON)"></button>
+        <button class="icon-button" id="backup-export" type="button" aria-label="Exportar respaldo" title="Descargar respaldo (JSON)"></button>
+        <button class="icon-button" id="theme-toggle" type="button" aria-label="Cambiar tema" title="Cambiar tema claro/oscuro"></button>
+      </div>
+    </header>
+
+    <!-- ============ CONTENIDO ============ -->
+    <!-- El contenido de #view-outlet lo pinta el módulo activo (mount()). -->
+    <main class="main">
+      <div id="view-outlet"></div>
+    </main>
+
+  </div>
+
+  <script type="module" src="core/shell.js"></script>
+</body>
+</html>

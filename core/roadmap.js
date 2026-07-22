@@ -1,0 +1,13 @@
+// Metadata pura (sin lógica) de los módulos planeados para versiones
+// futuras. Se muestran deshabilitados en el sidebar para visualizar el
+// crecimiento del sistema. Cuando un módulo se implementa de verdad, se
+// elimina de aquí y se agrega a core/modules.config.js.
+export const roadmap = [
+  { label: 'Agenda', version: 'V2', icon: 'calendar' },
+  { label: 'Hábitos', version: 'V3', icon: 'repeat' },
+  { label: 'Finanzas', version: 'V4', icon: 'dollar' },
+  { label: 'Proyectos', version: 'V5', icon: 'briefcase' },
+  { label: 'Biblioteca', version: 'V6', icon: 'book' },
+  { label: 'Clientes', version: 'V7', icon: 'users' },
+  { label: 'Configuración', version: null, icon: 'settings' },
+];
