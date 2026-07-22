@@ -131,11 +131,3 @@
   text-align: center;
   padding: var(--space-4) 0;
 }
-
-.is-income {
-  color: #30a46c;
-}
-
-.is-expense {
-  color: #e5484d;
-}

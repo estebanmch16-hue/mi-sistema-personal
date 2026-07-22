@@ -64,3 +64,13 @@
   font-size: var(--text-sm);
   color: var(--text-muted);
 }
+
+/* Convención de color para montos positivos/negativos, usada por Finanzas
+   y por el Panel de progreso. */
+.is-income {
+  color: #30a46c;
+}
+
+.is-expense {
+  color: #e5484d;
+}

@@ -12,9 +12,12 @@ import proyectos from '../modules/proyectos/index.js';
 import biblioteca from '../modules/biblioteca/index.js';
 import clientes from '../modules/clientes/index.js';
 import configuracion from '../modules/configuracion/index.js';
+import objetivos from '../modules/objetivos/index.js';
+import progreso from '../modules/progreso/index.js';
 
 export const activeModules = [
   dashboard,
+  progreso,
   tareas,
   notas,
   agenda,
@@ -25,4 +28,5 @@ export const activeModules = [
   biblioteca,
   clientes,
   configuracion,
+  objetivos,
 ];

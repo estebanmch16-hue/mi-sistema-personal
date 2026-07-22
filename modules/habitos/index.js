@@ -2,7 +2,7 @@ import * as storage from '../../core/storage.js';
 import { iconSvg } from '../../shared/icons.js';
 import { escapeHtml } from '../../shared/utils/dom.js';
 import { loadModuleStyles } from '../../shared/load-css.js';
-import { todayISO, addDays } from '../../shared/utils/dates.js';
+import { todayISO, addDays, computeStreak } from '../../shared/utils/dates.js';
 
 const NAMESPACE = 'habitos';
 const WEEKDAY_INITIALS = ['D', 'L', 'M', 'M', 'J', 'V', 'S'];
@@ -32,17 +32,6 @@ function weekdayInitial(iso) {
   return WEEKDAY_INITIALS[date.getDay()];
 }
 
-function computeStreak(completions) {
-  const set = new Set(completions);
-  let streak = 0;
-  let cursor = todayISO();
-  while (set.has(cursor)) {
-    streak++;
-    cursor = addDays(cursor, -1);
-  }
-  return streak;
-}
-
 function toggleDay(habit, iso) {
   const idx = habit.completions.indexOf(iso);
   if (idx === -1) habit.completions.push(iso);
@@ -69,7 +58,7 @@ function render() {
     li.dataset.id = habit.id;
 
     const streak = computeStreak(habit.completions);
-    const streakLabel = streak > 0 ? `${streak} día${streak === 1 ? '' : 's'} seguidos` : 'Sin racha';
+    const streakLabel = streak > 0 ? `${streak} día${streak === 1 ? '' : 's'} seguido${streak === 1 ? '' : 's'}` : 'Sin racha';
 
     li.innerHTML = `
       <div class="habit-info">

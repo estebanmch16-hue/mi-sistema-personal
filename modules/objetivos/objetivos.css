@@ -1,0 +1,131 @@
+.goal-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-5);
+}
+
+.goal-form input[name="title"] {
+  flex: 1;
+  min-width: 160px;
+}
+
+.goal-form input[name="description"] {
+  flex: 2;
+  min-width: 200px;
+}
+
+.goal-form input[name="target"] {
+  width: 130px;
+}
+
+.goal-form input[name="unit"] {
+  width: 140px;
+}
+
+.goal-form input[name="targetDate"] {
+  width: 160px;
+}
+
+.goal-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.goal-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.goal-header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.goal-title-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.goal-name {
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+}
+
+.goal-description {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.goal-date {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  color: var(--text-muted);
+  background: var(--bg-surface-hover);
+  border-radius: 999px;
+  padding: 2px var(--space-2);
+  white-space: nowrap;
+}
+
+.goal-status.status-completado {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  color: #30a46c;
+  background: rgba(48, 164, 108, 0.12);
+  border-radius: 999px;
+  padding: 2px var(--space-2);
+  white-space: nowrap;
+}
+
+.goal-delete svg {
+  width: 16px;
+  height: 16px;
+}
+
+.goal-progress {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.goal-progress-bar {
+  flex: 1;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--bg-surface-hover);
+  overflow: hidden;
+}
+
+.goal-progress-fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width var(--transition-base);
+}
+
+.goal-progress-label {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.goal-progress-form {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.goal-progress-form input {
+  flex: 1;
+  max-width: 160px;
+}
+
+.goal-empty {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  text-align: center;
+  padding: var(--space-4) 0;
+}

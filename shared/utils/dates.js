@@ -14,3 +14,16 @@ export function addDays(iso, amount) {
   date.setDate(date.getDate() + amount);
   return toISO(date);
 }
+
+// Días consecutivos hasta hoy (inclusive) presentes en `dates`. Usado por
+// Hábitos (racha por hábito) y por el Panel de progreso (racha promedio).
+export function computeStreak(dates) {
+  const set = new Set(dates);
+  let streak = 0;
+  let cursor = todayISO();
+  while (set.has(cursor)) {
+    streak++;
+    cursor = addDays(cursor, -1);
+  }
+  return streak;
+}
