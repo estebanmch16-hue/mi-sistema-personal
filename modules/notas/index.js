@@ -5,6 +5,7 @@ import { debounce } from '../../shared/utils/debounce.js';
 import { loadModuleStyles } from '../../shared/load-css.js';
 import { createTagPicker } from '../../shared/components/tag-picker.js';
 import { tagBadgesHtml } from '../../shared/components/tag-badges.js';
+import { loadTags } from '../../shared/tags.js';
 
 const NAMESPACE = 'notas';
 
@@ -38,17 +39,24 @@ function formatDate(iso) {
   });
 }
 
-let state = { notes: [] };
+let state = { notes: [], tagFilter: '' };
 let els = {};
 let tagPicker = null;
 const persistDebounced = debounce(() => saveNotes(state.notes), 400);
 
+function filteredNotes() {
+  if (!state.tagFilter) return state.notes;
+  return state.notes.filter((n) => (n.tagIds || []).includes(state.tagFilter));
+}
+
 function render() {
-  const notes = sortNotes(state.notes);
+  const notes = sortNotes(filteredNotes());
   els.grid.innerHTML = '';
 
   if (notes.length === 0) {
-    els.grid.innerHTML = '<p class="notes-empty">Aún no tienes notas. Escribe la primera arriba.</p>';
+    els.grid.innerHTML = state.tagFilter
+      ? '<p class="notes-empty">Sin notas con esa etiqueta.</p>'
+      : '<p class="notes-empty">Aún no tienes notas. Escribe la primera arriba.</p>';
     return;
   }
 
@@ -99,6 +107,11 @@ function handleGridClick(e) {
   render();
 }
 
+function handleTagFilterChange() {
+  state.tagFilter = els.tagFilter.value;
+  render();
+}
+
 export default {
   id: 'notas',
   label: 'Notas rápidas',
@@ -109,7 +122,7 @@ export default {
   mount(container) {
     loadModuleStyles('modules/notas/notas.css');
 
-    state = { notes: loadNotes() };
+    state = { notes: loadNotes(), tagFilter: '' };
 
     container.innerHTML = `
       <div class="view-header">
@@ -121,6 +134,12 @@ export default {
         <textarea placeholder="Escribe una nota…" autocomplete="off"></textarea>
         <div class="tag-picker"></div>
         <div class="note-composer-actions">
+          <select id="notas-tag-filter">
+            <option value="">Todas las etiquetas</option>
+            ${loadTags()
+              .map((t) => `<option value="${t.id}">${escapeHtml(t.label)}</option>`)
+              .join('')}
+          </select>
           <button type="submit" class="btn-primary">Guardar nota</button>
         </div>
       </form>
@@ -132,6 +151,7 @@ export default {
       composer: container.querySelector('.note-composer'),
       composerInput: container.querySelector('.note-composer textarea'),
       grid: container.querySelector('.notes-grid'),
+      tagFilter: container.querySelector('#notas-tag-filter'),
     };
 
     tagPicker = createTagPicker(els.composer.querySelector('.tag-picker'));
@@ -139,6 +159,7 @@ export default {
     els.composer.addEventListener('submit', handleComposerSubmit);
     els.grid.addEventListener('input', handleGridInput);
     els.grid.addEventListener('click', handleGridClick);
+    els.tagFilter.addEventListener('change', handleTagFilterChange);
 
     render();
   },

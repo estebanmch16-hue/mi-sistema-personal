@@ -4,6 +4,7 @@ import { escapeHtml } from '../../shared/utils/dom.js';
 import { loadModuleStyles } from '../../shared/load-css.js';
 import { createTagPicker } from '../../shared/components/tag-picker.js';
 import { tagBadgesHtml } from '../../shared/components/tag-badges.js';
+import { loadTags } from '../../shared/tags.js';
 
 const NAMESPACE = 'tareas';
 const PRIORITY_ORDER = { alta: 0, media: 1, baja: 2 };
@@ -29,14 +30,17 @@ function sortTasks(tasks) {
 }
 
 // --- Estado y render de la vista completa (mount) ---
-let state = { tasks: [], filter: 'pendientes' };
+let state = { tasks: [], filter: 'pendientes', tagFilter: '' };
 let els = {};
 let tagPicker = null;
 
 function filteredTasks() {
-  if (state.filter === 'pendientes') return state.tasks.filter((t) => !t.done);
-  if (state.filter === 'completadas') return state.tasks.filter((t) => t.done);
-  return state.tasks;
+  let tasks = state.tasks;
+  if (state.filter === 'pendientes') tasks = tasks.filter((t) => !t.done);
+  else if (state.filter === 'completadas') tasks = tasks.filter((t) => t.done);
+
+  if (state.tagFilter) tasks = tasks.filter((t) => (t.tagIds || []).includes(state.tagFilter));
+  return tasks;
 }
 
 function emptyMessage() {
@@ -120,6 +124,11 @@ function handleFilterClick(e) {
   render();
 }
 
+function handleTagFilterChange() {
+  state.tagFilter = els.tagFilter.value;
+  render();
+}
+
 export default {
   id: 'tareas',
   label: 'Tareas',
@@ -130,7 +139,7 @@ export default {
   mount(container) {
     loadModuleStyles('modules/tareas/tareas.css');
 
-    state = { tasks: loadTasks(), filter: 'pendientes' };
+    state = { tasks: loadTasks(), filter: 'pendientes', tagFilter: '' };
 
     container.innerHTML = `
       <div class="view-header">
@@ -153,6 +162,12 @@ export default {
         <button type="button" class="btn-ghost is-active" data-filter="pendientes">Pendientes</button>
         <button type="button" class="btn-ghost" data-filter="completadas">Completadas</button>
         <button type="button" class="btn-ghost" data-filter="todas">Todas</button>
+        <select id="tareas-tag-filter">
+          <option value="">Todas las etiquetas</option>
+          ${loadTags()
+            .map((t) => `<option value="${t.id}">${escapeHtml(t.label)}</option>`)
+            .join('')}
+        </select>
       </div>
 
       <ul class="task-list"></ul>
@@ -163,6 +178,7 @@ export default {
       list: container.querySelector('.task-list'),
       filters: container.querySelector('.task-filters'),
       counter: container.querySelector('#tareas-counter'),
+      tagFilter: container.querySelector('#tareas-tag-filter'),
     };
 
     tagPicker = createTagPicker(els.form.querySelector('.tag-picker'));
@@ -170,6 +186,7 @@ export default {
     els.form.addEventListener('submit', handleSubmit);
     els.list.addEventListener('click', handleListClick);
     els.filters.addEventListener('click', handleFilterClick);
+    els.tagFilter.addEventListener('change', handleTagFilterChange);
 
     render();
   },
