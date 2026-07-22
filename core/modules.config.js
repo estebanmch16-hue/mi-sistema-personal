@@ -11,5 +11,18 @@ import finanzas from '../modules/finanzas/index.js';
 import proyectos from '../modules/proyectos/index.js';
 import biblioteca from '../modules/biblioteca/index.js';
 import clientes from '../modules/clientes/index.js';
+import configuracion from '../modules/configuracion/index.js';
 
-export const activeModules = [dashboard, tareas, notas, agenda, habitos, enfoque, finanzas, proyectos, biblioteca, clientes];
+export const activeModules = [
+  dashboard,
+  tareas,
+  notas,
+  agenda,
+  habitos,
+  enfoque,
+  finanzas,
+  proyectos,
+  biblioteca,
+  clientes,
+  configuracion,
+];

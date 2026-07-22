@@ -50,3 +50,17 @@ export function importAll(payload) {
     set(ns, value);
   }
 }
+
+export function clearAll() {
+  for (const ns of listNamespaces()) {
+    remove(ns);
+  }
+}
+
+export function getUsageBytes() {
+  let total = 0;
+  for (const ns of listNamespaces()) {
+    total += key(ns).length + (localStorage.getItem(key(ns)) || '').length;
+  }
+  return total;
+}

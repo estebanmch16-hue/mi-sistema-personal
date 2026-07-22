@@ -59,3 +59,20 @@ select:focus {
   border-color: var(--accent);
   color: #fff;
 }
+
+.btn-danger {
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: #e5484d;
+  background: rgba(229, 72, 77, 0.1);
+  border: 1px solid rgba(229, 72, 77, 0.3);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-4);
+  transition: background-color var(--transition-fast);
+  white-space: nowrap;
+}
+
+.btn-danger:hover {
+  background: rgba(229, 72, 77, 0.18);
+}

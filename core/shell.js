@@ -55,19 +55,21 @@ function renderSidebar() {
     navGroups.appendChild(groupEl);
   }
 
-  const roadmapGroup = document.createElement('div');
-  roadmapGroup.className = 'nav-group';
-  roadmapGroup.innerHTML = '<div class="nav-group-label">Próximamente</div>';
+  if (roadmap.length > 0) {
+    const roadmapGroup = document.createElement('div');
+    roadmapGroup.className = 'nav-group';
+    roadmapGroup.innerHTML = '<div class="nav-group-label">Próximamente</div>';
 
-  for (const item of roadmap) {
-    const entry = document.createElement('div');
-    entry.className = 'nav-item is-disabled';
-    entry.setAttribute('aria-disabled', 'true');
-    const badge = item.version ? `<span class="nav-item-badge">${item.version}</span>` : '';
-    entry.innerHTML = `${iconSvg(item.icon)}<span>${item.label}</span>${badge}`;
-    roadmapGroup.appendChild(entry);
+    for (const item of roadmap) {
+      const entry = document.createElement('div');
+      entry.className = 'nav-item is-disabled';
+      entry.setAttribute('aria-disabled', 'true');
+      const badge = item.version ? `<span class="nav-item-badge">${item.version}</span>` : '';
+      entry.innerHTML = `${iconSvg(item.icon)}<span>${item.label}</span>${badge}`;
+      roadmapGroup.appendChild(entry);
+    }
+    navGroups.appendChild(roadmapGroup);
   }
-  navGroups.appendChild(roadmapGroup);
 }
 
 function updateActiveNavItem(route) {
