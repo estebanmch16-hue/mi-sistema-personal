@@ -4,5 +4,8 @@
 import dashboard from '../modules/dashboard/index.js';
 import tareas from '../modules/tareas/index.js';
 import notas from '../modules/notas/index.js';
+import agenda from '../modules/agenda/index.js';
+import habitos from '../modules/habitos/index.js';
+import enfoque from '../modules/enfoque/index.js';
 
-export const activeModules = [dashboard, tareas, notas];
+export const activeModules = [dashboard, tareas, notas, agenda, habitos, enfoque];
